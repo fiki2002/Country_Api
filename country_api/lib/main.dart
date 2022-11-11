@@ -1,4 +1,6 @@
+import 'package:country_api/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'theme/app_colors.dart';
 import 'views/country_page.dart';
@@ -14,13 +16,24 @@ class CountryApi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Country Api',
-      debugShowCheckedModeBanner: false,
-      home: const CountryPage(),
-      themeMode: ThemeMode.system,
-      theme: CountryAppTheme.lightTheme,
-      darkTheme: CountryAppTheme.darkTheme,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(),
+        )
+      ],
+      child: Consumer<ThemeProvider>(
+          child: const CountryPage(),
+          builder: (context, themeProvider, child) {
+            return MaterialApp(
+              title: 'Country Api',
+              debugShowCheckedModeBanner: false,
+              home: child,
+              themeMode: themeProvider.selectedTheme,
+              theme: CountryAppTheme.lightTheme,
+              darkTheme: CountryAppTheme.darkTheme,
+            );
+          }),
     );
   }
 }

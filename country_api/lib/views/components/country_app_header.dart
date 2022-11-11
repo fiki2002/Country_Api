@@ -1,18 +1,17 @@
-import 'package:flutter/cupertino.dart';
+import 'package:country_api/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class CountryAppHeader extends StatefulWidget {
+class CountryAppHeader extends StatelessWidget {
   const CountryAppHeader({super.key});
+  void _theme(BuildContext context) {
+    Provider.of<ThemeProvider>(context, listen: false).toggleTheme(context);
+  }
 
-  @override
-  State<CountryAppHeader> createState() => _CountryAppHeaderState();
-}
-
-class _CountryAppHeaderState extends State<CountryAppHeader> {
   @override
   Widget build(BuildContext context) {
-    final theme = MediaQuery.of(context).platformBrightness;
+    final selectedTheme = Provider.of<ThemeProvider>(context).selectedTheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -36,28 +35,15 @@ class _CountryAppHeaderState extends State<CountryAppHeader> {
             ],
           ),
         ),
-        theme == Brightness.dark
-            ? IconButton(
-                onPressed: () {
-                  setState(() {
-                    ThemeMode.system == ThemeMode.light;
-                  });
-                },
-                icon: const Icon(
-                  CupertinoIcons.moon_circle_fill,
-                  color: Color(0xffeaecf0),
-                  size: 20,
-                ))
-            : IconButton(
-                onPressed: () {
-                  setState(() {
-                     ThemeMode.system == ThemeMode.dark;
-                  });
-                },
-                icon: const Icon(
-                  Icons.light_mode_outlined,
-                  size: 20,
-                ))
+        IconButton(
+          onPressed: () => _theme(context),
+          icon: Icon(
+            selectedTheme == ThemeMode.light
+                ? Icons.light_mode_outlined
+                : Icons.dark_mode_outlined,
+            size: 20,
+          ),
+        ),
       ],
     );
   }
