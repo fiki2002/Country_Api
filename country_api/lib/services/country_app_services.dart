@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:country_api/models/country_app_model.dart';
 import 'package:http/http.dart' as http;
 
 class CountryAppService {
-  Future<List<Country>> getAll() async {
-    const baseUrl = 'https://restcountries.com/v3.1/all';
+  static const baseUrl = 'https://restcountries.com/v3.1/all';
+
+  Future<List<Country>> getAllCountries() async {
     final uri = Uri.parse(baseUrl);
     final response = await http.get(uri);
     if (response.statusCode == 200) {
@@ -16,8 +18,7 @@ class CountryAppService {
           )
           .toList();
       return countriesList;
-    } else {
-      return [];
     }
+    throw Exception('Failed to load list of countries');
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'components/country_app_header.dart';
 import 'components/country_app_search_bar.dart';
+import 'components/country_list.dart';
 
 class CountryPage extends StatefulWidget {
   const CountryPage({super.key});
@@ -23,6 +24,7 @@ class _CountryPageState extends State<CountryPage> {
           children: const [
             CountryAppHeader(),
             CountrySearchBar(),
+            CountryList(),
           ],
         ),
       ),

@@ -227,27 +227,6 @@ class NativeName {
   }
 }
 
-// class Eng {
-//   String? official;
-//   String? common;
-//
-//   Eng({
-//     this.official,
-//     this.common,
-//   });
-//
-//   Eng.fromJson(Map<String, dynamic> json) {
-//     official = json['official'] as String?;
-//     common = json['common'] as String?;
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> json = <String, dynamic>{};
-//     json['official'] = official;
-//     json['common'] = common;
-//     return json;
-//   }
-// }
 
 class Currencies {
   BBD? bBD;

@@ -1,3 +1,4 @@
+import 'package:country_api/provider/countries_provider.dart';
 import 'package:country_api/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,10 @@ class CountryApi extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
-        )
+        ),
+         ChangeNotifierProvider(
+          create: (_) => CountryProvider(),
+        ),
       ],
       child: Consumer<ThemeProvider>(
           child: const CountryPage(),
