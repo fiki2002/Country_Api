@@ -9,7 +9,7 @@ class CountryProvider extends ChangeNotifier {
   final List<CountryGroup> _countryGroups = [];
   List<CountryGroup> get countryGroups => _countryGroups;
 
-  List<Country> _countries = [];
+  final List<Country> _countries = [];
 
   bool isLoading = false;
   List<Country> get countries => _countries;
@@ -20,7 +20,6 @@ class CountryProvider extends ChangeNotifier {
 
     await _groupCountries();
     notifyListeners();
-
 
     isLoading = false;
     notifyListeners();

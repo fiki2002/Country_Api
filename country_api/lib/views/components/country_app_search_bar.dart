@@ -1,7 +1,10 @@
-import 'package:country_api/views/widgets/filter_modal_sheet.dart';
+import 'package:country_api/views/widgets/country_search_feature.dart';
+import 'package:country_api/views/components/filter_modal_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../provider/theme_provider.dart';
 import '../../theme/app_fonts.dart';
 import '../widgets/language_modal_sheet.dart';
 
@@ -17,14 +20,48 @@ class _CountrySearchBarState extends State<CountrySearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedTheme = Provider.of<ThemeProvider>(context).selectedTheme;
+
     return Column(
       children: [
-        Container(
-          width: 380,
-          height: 48,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: Theme.of(context).backgroundColor,
+        GestureDetector(
+          onTap: () {
+            showSearch(context: context, delegate: SearchCountries(),);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            width: 380,
+            height: 48,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: Theme.of(context).backgroundColor,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  Icons.search,
+                  size: 20,
+                  color: selectedTheme == ThemeMode.dark
+                      ? const Color(0xffEAECF0)
+                      : const Color(0xff667085),
+                ),
+                Text(
+                  'Search Country',
+                  style: TextStyle(
+                    color: selectedTheme == ThemeMode.dark
+                        ? const Color(0xffEAECF0)
+                        : const Color(0xff667085),
+                    fontSize: 16,
+                    fontFamily: CountryAppFonts.axiformaRegular,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                const SizedBox(
+                  width: 30,
+                )
+              ],
+            ),
           ),
         ),
         const SizedBox(
@@ -41,6 +78,7 @@ class _CountrySearchBarState extends State<CountrySearchBar> {
             ),
             buildContainer(
               Icons.filter_alt_outlined,
+              
               'Filter',
               context,
               () => FilterModalSheet.showModalSheet(context),

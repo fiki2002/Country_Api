@@ -117,7 +117,15 @@ class EntryItem extends StatelessWidget {
     if (root.children.isEmpty) {
       return ListTile(
         dense: true,
-        title: Text(root.title),
+        title: Text(
+          root.title,
+          style: TextStyle(
+            // color: Theme.of(context).primaryColor,
+            fontFamily: CountryAppFonts.axiformaRegular,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       );
     }
     return ExpansionTile(

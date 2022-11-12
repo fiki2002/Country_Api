@@ -140,6 +140,8 @@ class Country {
         : null;
   }
 
+  get country => null;
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
     json['name'] = name?.toJson();
@@ -226,7 +228,6 @@ class NativeName {
     return json;
   }
 }
-
 
 class Currencies {
   BBD? bBD;
