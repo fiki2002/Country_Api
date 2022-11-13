@@ -9,20 +9,13 @@ class CountryAppService {
   static const baseUrl = 'https://restcountries.com/v3.1/all';
   var data = [];
   List<Country> results = [];
-  Future<List<Country>> getAllCountries({String? query}) async {
+  Future<List<Country>> getAllCountries() async {
     final uri = Uri.parse(baseUrl);
-    final response = await http.get(uri);
     try {
+    final response = await http.get(uri);
       if (response.statusCode == 200) {
         data = json.decode(response.body) as List;
         results = data.map((e) => Country.fromJson(e)).toList();
-        if (query != null) {
-          results = results
-              .where((element) =>
-                  element.country.name?.official ??
-                  ''.toLowerCase().contains(query.toLowerCase()))
-              .toList();
-        }
       } else {
         debugPrint('Failed to load list of countries');
       }

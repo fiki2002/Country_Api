@@ -1,10 +1,11 @@
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../models/country_app_model.dart';
 import '../theme/app_fonts.dart';
+import 'components/country_app_responsiveness.dart';
 
-class CountryDetails extends StatelessWidget {
+class CountryDetails extends StatefulWidget {
   const CountryDetails({
     super.key,
     required this.country,
@@ -12,11 +13,16 @@ class CountryDetails extends StatelessWidget {
   final Country country;
 
   @override
+  State<CountryDetails> createState() => _CountryDetailsState();
+}
+
+class _CountryDetailsState extends State<CountryDetails> {
+  @override
   Widget build(BuildContext context) {
-    List<String> images = [
-      country.flags?.png ?? '',
-      country.coatOfArms?.png ?? '',
-    ];
+   
+    var controller = PageController();
+    var selectedIndex = 0;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -31,7 +37,7 @@ class CountryDetails extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         title: Text(
-          country.name?.common ?? '',
+          widget.country.name?.common ?? '',
           style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 20,
@@ -48,21 +54,174 @@ class CountryDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: 200,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Swiper(
-                  itemCount: images.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(images[index], fit: BoxFit.fill),
-                    );
-                  },
-                  pagination: const SwiperPagination(),
-                  control: const SwiperControl(),
+              
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      PageView(
+                        controller: controller,
+                        onPageChanged: (value) {
+                          setState(() {
+                            selectedIndex = value;
+                          });
+                        },
+                        children: [
+                          Image.network(
+                            widget.country.flags!.png!,
+                            fit: CountryAppResponsiveness.isLandScape(context)
+                                ? BoxFit.fitHeight
+                                : BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
+                          (widget.country.coatOfArms!.png == null)
+                              ? Center(
+                                  child: Text(
+                                    'Data for coat of arm no available',
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontFamily:
+                                          CountryAppFonts.axiformaRegular,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                )
+                              : Image.network(
+                                  widget.country.coatOfArms!.png!,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
+                                )
+                        ],
+                      ),
+                      Align(
+                        alignment: const Alignment(-0.9, 0),
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.previousPage(
+                                duration: const Duration(milliseconds: 200),
+                                curve: Curves.easeIn);
+                          },
+                          child: selectedIndex == 0
+                              ? const CircleAvatar(
+                                  foregroundColor:
+                                      Color.fromARGB(255, 255, 255, 255),
+                                  backgroundColor:
+                                      Color.fromRGBO(238, 238, 238, 0.2),
+                                  radius: 18,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_back_ios_new_rounded,
+                                      size: 15,
+                                      color: Color(0xffFFFFFF),
+                                    ),
+                                  ),
+                                )
+                              : const CircleAvatar(
+                                  foregroundColor:
+                                      Color.fromARGB(255, 255, 255, 255),
+                                  backgroundColor:
+                                      Color.fromRGBO(238, 238, 238, 0.5),
+                                  radius: 20,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_back_ios_new_rounded,
+                                      size: 15,
+                                      color: Color(0xffFFFFFF),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                      Align(
+                        alignment: const Alignment(0.9, 0),
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.nextPage(
+                                duration: const Duration(milliseconds: 200),
+                                curve: Curves.easeIn);
+                          },
+                          child: selectedIndex == 1
+                              ? const CircleAvatar(
+                                  foregroundColor:
+                                      Color.fromARGB(255, 255, 255, 255),
+                                  backgroundColor:
+                                      Color.fromRGBO(238, 238, 238, 0.2),
+                                  radius: 18,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 15,
+                                      color: Color(0xffFFFFFF),
+                                    ),
+                                  ),
+                                )
+                              : const CircleAvatar(
+                                  foregroundColor:
+                                      Color.fromARGB(255, 255, 255, 255),
+                                  backgroundColor:
+                                      Color.fromRGBO(238, 238, 238, 0.5),
+                                  radius: 20,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 15,
+                                      color: Color(0xffFFFFFF),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                      Align(
+                        alignment: const Alignment(0, 0.8),
+                        child: SmoothPageIndicator(
+                          controller: controller,
+                          count: 2,
+                          onDotClicked: (value) {
+                            controller.animateToPage(value,
+                                duration: const Duration(milliseconds: 350),
+                                curve: Curves.easeIn);
+                          },
+                          effect: const ScrollingDotsEffect(
+                            dotWidth: 8,
+                            dotHeight: 8,
+                            activeDotColor: Color(0xffFFFFFF),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
@@ -70,17 +229,17 @@ class CountryDetails extends StatelessWidget {
               ),
               buildText(
                 mainText: 'Population: ',
-                subText: '${country.population}',
+                subText: '${widget.country.population}',
                 context: context,
               ),
               buildText(
                 mainText: 'Region: ',
-                subText: '${country.region}',
+                subText: '${widget.country.region}',
                 context: context,
               ),
               buildText(
                 mainText: 'Capital: ',
-                subText: country.capital?[0] ?? 'nil',
+                subText: widget.country.capital?[0] ?? 'nil',
                 context: context,
               ),
               buildText(
@@ -93,12 +252,12 @@ class CountryDetails extends StatelessWidget {
               ),
               buildText(
                 mainText: 'Official language: ',
-                subText: country.languages?.eng ?? 'nil',
+                subText: widget.country.languages?.eng ?? 'nil',
                 context: context,
               ),
               buildText(
                 mainText: 'Ethnic group: ',
-                subText: country.demonyms?.eng!.f ?? 'nil',
+                subText: widget.country.demonyms?.eng!.f ?? 'nil',
                 context: context,
               ),
               buildText(
@@ -116,22 +275,22 @@ class CountryDetails extends StatelessWidget {
               ),
               buildText(
                 mainText: 'Independence: ',
-                subText: country.independent?.toString() ?? 'nil',
+                subText: widget.country.independent?.toString() ?? 'nil',
                 context: context,
               ),
               buildText(
                 mainText: 'Area: ',
-                subText: country.area?.toString() ?? 'nil',
+                subText: widget.country.area?.toString() ?? 'nil',
                 context: context,
               ),
               buildText(
                 mainText: 'Currency: ',
-                subText: country.currencies?.bBD?.name ?? 'EURO',
+                subText: widget.country.currencies?.bBD?.name ?? 'EURO',
                 context: context,
               ),
               buildText(
                 mainText: 'GDP: ',
-                subText: country.cioc ?? 'nil',
+                subText: widget.country.cioc ?? 'nil',
                 context: context,
               ),
               const SizedBox(
@@ -139,22 +298,22 @@ class CountryDetails extends StatelessWidget {
               ),
               buildText(
                 mainText: 'Time zone: ',
-                subText: country.timezones?.first ?? 'UTC+01:00',
+                subText: widget.country.timezones?.first ?? 'UTC+01:00',
                 context: context,
               ),
               buildText(
                 mainText: 'Date format: ',
-                subText: country.postalCode?.format ?? 'dd/mm/yyyy',
+                subText: widget.country.postalCode?.format ?? 'dd/mm/yyyy',
                 context: context,
               ),
               buildText(
                 mainText: 'Dialing code:',
-                subText: country.idd?.root ?? 'nil',
+                subText: widget.country.idd?.root ?? 'nil',
                 context: context,
               ),
               buildText(
                 mainText: 'Driving side: ',
-                subText: country.car?.side ?? 'right',
+                subText: widget.country.car?.side ?? 'right',
                 context: context,
               ),
               const SizedBox(
@@ -162,22 +321,22 @@ class CountryDetails extends StatelessWidget {
               ),
               buildText(
                 mainText: 'Alternate spellings: ',
-                subText: country.altSpellings?.first ?? '',
+                subText: widget.country.altSpellings?.first ?? '',
                 context: context,
               ),
               buildText(
                 mainText: 'Continents: ',
-                subText: country.continents?.first ?? '',
+                subText: widget.country.continents?.first ?? '',
                 context: context,
               ),
               buildText(
                 mainText: 'Land locked: ',
-                subText: country.landlocked.toString(),
+                subText: widget.country.landlocked.toString(),
                 context: context,
               ),
               buildText(
                 mainText: 'Member of UN: ',
-                subText: country.unMember.toString(),
+                subText: widget.country.unMember.toString(),
                 context: context,
               ),
             ],

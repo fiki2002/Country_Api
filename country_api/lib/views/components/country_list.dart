@@ -1,6 +1,7 @@
 import 'package:country_api/models/country_app_model.dart';
 import 'package:country_api/provider/countries_provider.dart';
 import 'package:country_api/services/country_app_services.dart';
+import 'package:country_api/views/components/country_app_responsiveness.dart';
 import 'package:country_api/views/widgets/country_group_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -57,14 +58,52 @@ class _CountryListState extends State<CountryList> {
                     ],
                   ),
                 );
+              } else if (snapshot.hasError) {
+                return Text(
+                  snapshot.error.toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontFamily: CountryAppFonts.axiformaRegular,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                );
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: Text(
+                    'Waiting...',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontFamily: CountryAppFonts.axiformaRegular,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                );
+              } else if (snapshot.connectionState == ConnectionState.none) {
+                return Center(
+                  child: Text(
+                    'Cannot establish connection with the server',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontFamily: CountryAppFonts.axiformaRegular,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                );
               }
               return ListView.builder(
                   shrinkWrap: true,
                   itemCount: value.countryGroups.length,
                   itemBuilder: (context, index) {
                     final countryGroup = value.countryGroups[index];
-                    return CountryGroupWidget(
-                      countryGroup: countryGroup,
+                    final size = MediaQuery.of(context).size;
+                    return SizedBox(
+                      height: CountryAppResponsiveness.isLandScape(context)? 250 : size.height*0.7,
+                      child: CountryGroupWidget(
+                        countryGroup: countryGroup,
+                      ),
                     );
                   });
             }),

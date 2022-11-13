@@ -26,14 +26,14 @@ class _CountrySearchBarState extends State<CountrySearchBar> {
       children: [
         GestureDetector(
           onTap: () {
-            showSearch(context: context, delegate: SearchCountries(),);
+            // showSearch(context: context, delegate: SearchCountries(),);
           },
           child: Container(
             padding: const EdgeInsets.all(16),
-            width: 380,
-            height: 48,
+            height: 54,
+            width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(8),
               color: Theme.of(context).backgroundColor,
             ),
             child: Row(
