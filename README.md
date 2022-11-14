@@ -18,6 +18,8 @@ The API returns a data of countries and their important details such as:
 - Details of country screen
 - API consumption
 - Group of data from API
+- Network connectivity
+
 
 
 ## Codebase Description
@@ -54,6 +56,10 @@ The Libraries used in the app are:
 - Google_Fonts
 - Provider
 - Http
+- Smooth_page_indicator
+- Internet_connection_checker
+- Connectivity_plus
+
 
  ## Google_Fonts
 
@@ -66,12 +72,16 @@ The Libraries used in the app are:
 
  ## Http
   I used this package for handling the API calls of the app
-
+  
+ ## Smooth_page_indicator
+  I used this package for enabling the dot indicator for the image card holder
+  
+  ## Internet_connectivity_checker
+  I used this package for handling the network connectivity of the app. It checks if the app is connected to the internet and alerts the user
 
 ## Features I would love to add
 
-I would have loved to implement the filter functionality and also localize more languages
-
+I would have loved to implement the filter functionality and make some bug fixes
 
 ## Challenges i faced
 
