@@ -81,5 +81,8 @@ How i solved them!, uhmmn,  This project show me shege pro max😭 but thank God
 I am  not satisfied sha
 I have a lot to learn.
 
-## Appetize URL
+## APK link
 
+
+## Appetize URL
+https://appetize.io/app/r7omud4fvwimrnq4qkhipa67oe?device=pixel4&osVersion=11.0&scale=75
