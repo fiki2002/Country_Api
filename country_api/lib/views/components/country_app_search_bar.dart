@@ -1,3 +1,4 @@
+import 'package:country_api/provider/countries_provider.dart';
 import 'package:country_api/views/widgets/country_search_feature.dart';
 import 'package:country_api/views/components/filter_modal_sheet.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +27,10 @@ class _CountrySearchBarState extends State<CountrySearchBar> {
       children: [
         GestureDetector(
           onTap: () {
-            // showSearch(context: context, delegate: SearchCountries(),);
+            showSearch(
+              context: context,
+              delegate: SearchCountries(),
+            );
           },
           child: Container(
             padding: const EdgeInsets.all(16),
@@ -72,13 +76,12 @@ class _CountrySearchBarState extends State<CountrySearchBar> {
           children: [
             buildContainer(
               CupertinoIcons.globe,
-              'EN',
+              context.watch<CountryProvider>().translationString.toUpperCase(),
               context,
               () => LanguageModalSheet.showModalSheet(context),
             ),
             buildContainer(
               Icons.filter_alt_outlined,
-              
               'Filter',
               context,
               () => FilterModalSheet.showModalSheet(context),

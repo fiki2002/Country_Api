@@ -23,7 +23,7 @@ class ThemeProvider extends ChangeNotifier {
     } else {
       _selectedTheme == ThemeMode.dark ? ThemeMode.system : ThemeMode.light;
       notifyListeners();
-       _selectedTheme == ThemeMode.light ? ThemeMode.system : ThemeMode.dark;
+      _selectedTheme == ThemeMode.light ? ThemeMode.system : ThemeMode.dark;
       notifyListeners();
     }
   }

@@ -1,12 +1,12 @@
 import 'package:country_api/models/country_app_model.dart';
 import 'package:country_api/provider/countries_provider.dart';
 import 'package:country_api/services/country_app_services.dart';
-import 'package:country_api/views/components/country_app_responsiveness.dart';
 import 'package:country_api/views/widgets/country_group_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../theme/app_fonts.dart';
+import 'country_app_responsiveness.dart';
 
 class CountryList extends StatefulWidget {
   const CountryList({super.key});
@@ -29,6 +29,8 @@ class _CountryListState extends State<CountryList> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     CountryAppService countryAppService = CountryAppService();
     return Consumer<CountryProvider>(builder: (context, value, child) {
       return Expanded(
@@ -93,19 +95,20 @@ class _CountryListState extends State<CountryList> {
                   ),
                 );
               }
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: value.countryGroups.length,
-                  itemBuilder: (context, index) {
-                    final countryGroup = value.countryGroups[index];
-                    final size = MediaQuery.of(context).size;
-                    return SizedBox(
-                      height: CountryAppResponsiveness.isLandScape(context)? 250 : size.height*0.7,
-                      child: CountryGroupWidget(
+              return SizedBox(
+                height: CountryAppResponsiveness.isLandScape(context)
+                    ? 250
+                    : size.height * 0.7,
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: value.countryGroups.length,
+                    itemBuilder: (context, index) {
+                      final countryGroup = value.countryGroups[index];
+                      return CountryGroupWidget(
                         countryGroup: countryGroup,
-                      ),
-                    );
-                  });
+                      );
+                    }),
+              );
             }),
       );
     });

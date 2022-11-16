@@ -22,7 +22,7 @@ class CountryApi extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
         ),
-         ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (_) => CountryProvider(),
         ),
       ],

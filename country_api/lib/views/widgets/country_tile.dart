@@ -1,3 +1,4 @@
+import 'package:country_api/provider/countries_provider.dart';
 import 'package:country_api/theme/app_fonts.dart';
 import 'package:country_api/views/country_details.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,9 @@ class CountryTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    country.name?.official ?? 'NIL',
+                    context.watch<CountryProvider>().translationSelected
+                        ? country.name?.official ?? 'NIL'
+                        : country.name?.official ?? 'NIL',
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontFamily: CountryAppFonts.axiformaRegular,
@@ -58,7 +61,9 @@ class CountryTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    country.capital?[0] ?? 'NIL',
+                    context.watch<CountryProvider>().translationSelected == true
+                        ? country.name?.official ?? 'NIL'
+                        : country.name?.official ?? 'NIL',
                     style: TextStyle(
                       color: selectedTheme == ThemeMode.dark
                           ? const Color(0xff98A2B3)

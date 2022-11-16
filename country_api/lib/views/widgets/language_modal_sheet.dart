@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../provider/countries_provider.dart';
 import '../../provider/theme_provider.dart';
 import '../../theme/app_fonts.dart';
 
@@ -27,19 +28,34 @@ class LanguageModalSheet extends StatefulWidget {
 }
 
 class _LanguageModalSheetState extends State<LanguageModalSheet> {
-  List<String> items = [
-    'English',
-    'Deutsch',
-    'Espanol',
-    'Francaise',
-    'Italiano',
-    'Portugues',
-    'Spanish',
-    'Greek',
-    'Chinese',
-    'Arabic',
-    'Bengali',
-  ];
+  static String groupValue = "eng";
+  static const Map<String, String> translationToLanguage = {
+    "eng": "English",
+    "ara": "Arabic",
+    "bre": "Breton",
+    "ces": "Czech",
+    "cym": "Welsh",
+    "deu": "German",
+    "est": "Estonian",
+    "fin": "Finnish",
+    "fra": "French",
+    "hrv": "Croation",
+    "hun": "Hungarian",
+    "ita": "Italian",
+    "jpn": "Japanese",
+    "kor": "Korean",
+    "nld": "Dutch",
+    "per": "Persion",
+    "pol": "Polish",
+    "por": "Portuguese",
+    "rus": "Russian",
+    "slk": "Slovak",
+    "spa": "Spanish",
+    "swe": "Swedish",
+    "tur": "Turkish",
+    "urd": "Urdu",
+    "zho": "Chinese",
+  };
   @override
   Widget build(BuildContext context) {
     final selectedTheme = Provider.of<ThemeProvider>(context).selectedTheme;
@@ -76,21 +92,37 @@ class _LanguageModalSheetState extends State<LanguageModalSheet> {
             ],
           ),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          padding: const EdgeInsets.only(
-            left: 24,
-            right: 15.0,
-          ),
-          itemBuilder: (context, index) {
-            return RadioListTile(
-              value: index,
-              dense: true,
-              controlAffinity: ListTileControlAffinity.trailing,
-              contentPadding: EdgeInsets.zero,
-              groupValue: null,
-              onChanged: null,
-              title: Text(items[index].toString(),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: ListView.builder(
+            shrinkWrap: true,
+            padding: const EdgeInsets.only(
+              left: 24,
+              right: 15.0,
+            ),
+            itemBuilder: (context, index) {
+              var item = translationToLanguage.keys.toList()[index];
+              var lang = translationToLanguage.values.toList()[index];
+              return RadioListTile(
+                value: item,
+                dense: true,
+                controlAffinity: ListTileControlAffinity.trailing,
+                contentPadding: EdgeInsets.zero,
+                groupValue: groupValue,
+                onChanged: (value) {
+                  if (value == "eng") {
+                    context.read<CountryProvider>().translationSelected = false;
+                  } else {
+                    context.read<CountryProvider>().translationSelected = true;
+                  }
+                  context.read<CountryProvider>().translationString = value;
+                  setState(() {
+                    groupValue = value!;
+                  });
+                  Navigator.pop(context);
+                },
+                title: Text(
+                  lang,
                   style: TextStyle(
                     color: selectedTheme == ThemeMode.dark
                         ? const Color(0xffF2F4F7)
@@ -98,10 +130,12 @@ class _LanguageModalSheetState extends State<LanguageModalSheet> {
                     fontFamily: CountryAppFonts.axiformaRegular,
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                  )),
-            );
-          },
-          itemCount: items.length,
+                  ),
+                ),
+              );
+            },
+            itemCount: translationToLanguage.keys.length,
+          ),
         ),
       ],
     );

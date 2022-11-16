@@ -8,11 +8,26 @@ class CountryProvider extends ChangeNotifier {
   final CountryAppService _countryAppService = CountryAppService();
   final List<CountryGroup> _countryGroups = [];
   List<CountryGroup> get countryGroups => _countryGroups;
+  bool _translationSelected = false;
+  bool get translationSelected => _translationSelected;
 
-  final List<Country> _countries = [];
+  List<Country> _countries = [];
 
   bool isLoading = false;
   List<Country> get countries => _countries;
+
+  String _translationString = "eng";
+  String get translationString => _translationString;
+
+  set translationString(value) {
+    _translationString = value;
+    notifyListeners();
+  }
+
+  set translationSelected(value) {
+    _translationSelected = value;
+    notifyListeners();
+  }
 
   Future<void> setAllCountryList() async {
     isLoading = true;
@@ -23,6 +38,19 @@ class CountryProvider extends ChangeNotifier {
 
     isLoading = false;
     notifyListeners();
+  }
+
+  Future<List<Country>> getSingleCountry() async {
+    isLoading = true;
+    notifyListeners();
+
+    final response = await _countryAppService.getAllCountries();
+
+    _countries = response;
+
+    isLoading = false;
+    notifyListeners();
+    return _countries;
   }
 
   Future<void> _groupCountries() async {

@@ -51,9 +51,10 @@ class _CountryPageState extends State<CountryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 40.0,
-          horizontal: 20,
+        padding: const EdgeInsets.only(
+          top: 40.0,
+          left: 20,
+          right: 20,
         ),
         child: Column(
           children: const [
@@ -71,8 +72,9 @@ class _CountryPageState extends State<CountryPage> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title:  Text('Seems like you\'re not connected to the internet',
-        style: TextStyle(
+        title: Text(
+          'Seems like you\'re not connected to the internet',
+          style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 16,
             fontWeight: FontWeight.w700,
@@ -80,7 +82,8 @@ class _CountryPageState extends State<CountryPage> {
           ),
         ),
         elevation: 20,
-        content:  Text('Please connect to the internet and try again',
+        content: Text(
+          'Please connect to the internet and try again',
           style: TextStyle(
             color: Theme.of(context).primaryColor,
             fontSize: 14,

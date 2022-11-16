@@ -29,47 +29,49 @@ class _FilterModalSheetState extends State<FilterModalSheet> {
   Widget build(BuildContext context) {
     final selectedTheme = Provider.of<ThemeProvider>(context).selectedTheme;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            left: 24,
-            right: 15.0,
-            top: 15,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Filter',
-                style: TextStyle(
-                  color: selectedTheme == ThemeMode.dark
-                      ? const Color(0xffEAECF0)
-                      : const Color(0xff1C1917),
-                  fontSize: 20,
-                  fontFamily: CountryAppFonts.axiformaRegular,
-                  fontWeight: FontWeight.w700,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 24,
+              right: 15.0,
+              top: 15,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Filter',
+                  style: TextStyle(
+                    color: selectedTheme == ThemeMode.dark
+                        ? const Color(0xffEAECF0)
+                        : const Color(0xff1C1917),
+                    fontSize: 20,
+                    fontFamily: CountryAppFonts.axiformaRegular,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: const Icon(
-                  CupertinoIcons.clear_fill,
-                  color: Color(0xff98A2B3),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    CupertinoIcons.clear_fill,
+                    color: Color(0xff98A2B3),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        ListView.builder(
-          itemCount: data.length,
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, index) => EntryItem(
-            filterEntries: data[index],
+          ListView.builder(
+            itemCount: data.length,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, index) => EntryItem(
+              filterEntries: data[index],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -120,7 +122,7 @@ class EntryItem extends StatelessWidget {
         title: Text(
           root.title,
           style: TextStyle(
-            // color: Theme.of(context).primaryColor,
+            color: Colors.blueGrey,
             fontFamily: CountryAppFonts.axiformaRegular,
             fontSize: 14,
             fontWeight: FontWeight.w400,
@@ -129,12 +131,12 @@ class EntryItem extends StatelessWidget {
       );
     }
     return ExpansionTile(
-      title: Text(root.title),
+      textColor: Colors.blueGrey,
+      title: Text(
+        root.title,
+      ),
       key: PageStorageKey<FilterEntry>(root),
-      // children: root.children.map<Widget>(_buildTiles).toList(),
-      children: const [
-        // RadioListTile(value: value, groupValue: groupValue, onChanged: onChanged)
-      ],
+      children: root.children.map<Widget>(_buildTiles).toList(),
     );
   }
 }

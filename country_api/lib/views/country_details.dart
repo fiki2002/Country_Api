@@ -19,7 +19,6 @@ class CountryDetails extends StatefulWidget {
 class _CountryDetailsState extends State<CountryDetails> {
   @override
   Widget build(BuildContext context) {
-   
     var controller = PageController();
     var selectedIndex = 0;
 
@@ -56,10 +55,9 @@ class _CountryDetailsState extends State<CountryDetails> {
               Container(
                 height: 200,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
-              
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Stack(
@@ -139,7 +137,7 @@ class _CountryDetailsState extends State<CountryDetails> {
                                       Color.fromARGB(255, 255, 255, 255),
                                   backgroundColor:
                                       Color.fromRGBO(238, 238, 238, 0.2),
-                                  radius: 18,
+                                  radius: 16,
                                   child: Center(
                                     child: Icon(
                                       Icons.arrow_back_ios_new_rounded,
@@ -153,7 +151,7 @@ class _CountryDetailsState extends State<CountryDetails> {
                                       Color.fromARGB(255, 255, 255, 255),
                                   backgroundColor:
                                       Color.fromRGBO(238, 238, 238, 0.5),
-                                  radius: 20,
+                                  radius: 16,
                                   child: Center(
                                     child: Icon(
                                       Icons.arrow_back_ios_new_rounded,
@@ -178,7 +176,7 @@ class _CountryDetailsState extends State<CountryDetails> {
                                       Color.fromARGB(255, 255, 255, 255),
                                   backgroundColor:
                                       Color.fromRGBO(238, 238, 238, 0.2),
-                                  radius: 18,
+                                  radius: 16,
                                   child: Center(
                                     child: Icon(
                                       Icons.arrow_forward_ios_rounded,
@@ -191,8 +189,8 @@ class _CountryDetailsState extends State<CountryDetails> {
                                   foregroundColor:
                                       Color.fromARGB(255, 255, 255, 255),
                                   backgroundColor:
-                                      Color.fromRGBO(238, 238, 238, 0.5),
-                                  radius: 20,
+                                      Color.fromRGBO(238, 238, 238, 0.2),
+                                  radius: 16,
                                   child: Center(
                                     child: Icon(
                                       Icons.arrow_forward_ios_rounded,
@@ -275,7 +273,7 @@ class _CountryDetailsState extends State<CountryDetails> {
               ),
               buildText(
                 mainText: 'Independence: ',
-                subText: widget.country.independent?.toString() ?? 'nil',
+                subText: widget.country.independent! ? 'Yes' : 'No',
                 context: context,
               ),
               buildText(
@@ -336,7 +334,35 @@ class _CountryDetailsState extends State<CountryDetails> {
               ),
               buildText(
                 mainText: 'Member of UN: ',
-                subText: widget.country.unMember.toString(),
+                subText: widget.country.unMember! ? 'Yes' : 'No',
+                context: context,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              buildText(
+                mainText: 'First day of the week: ',
+                subText: widget.country.startOfWeek.toString(),
+                context: context,
+              ),
+              buildText(
+                mainText: 'Sub region: ',
+                subText: widget.country.subregion ?? 'nil',
+                context: context,
+              ),
+              buildText(
+                mainText: 'Officially Assigned: ',
+                subText: widget.country.status.toString().toUpperCase(),
+                context: context,
+              ),
+              buildText(
+                mainText: 'Longitude: ',
+                subText: widget.country.latlng!.first.toString(),
+                context: context,
+              ),
+              buildText(
+                mainText: 'Latitude: ',
+                subText: widget.country.latlng!.last.toString(),
                 context: context,
               ),
             ],
